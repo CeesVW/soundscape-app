@@ -329,7 +329,9 @@ export default function SoundscapeApp(){
   const stripV=`linear-gradient(to right,${toCSS(QUAD_ACCENT.chaotic)},${toCSS(QUAD_ACCENT.monotonous)},${toCSS(QUAD_ACCENT.calm)},${toCSS(QUAD_ACCENT.vibrant)})`;
   const stripE=`linear-gradient(to right,${toCSS(QUAD_ACCENT.monotonous)},${toCSS(QUAD_ACCENT.calm)},${toCSS(QUAD_ACCENT.chaotic)},${toCSS(QUAD_ACCENT.vibrant)})`;
 
-  const shell={minHeight:"100vh",background:bg,transition:"background 0.6s ease",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"28px 20px 52px",fontFamily:"'DM Sans',sans-serif",color:"#eae8e2",boxSizing:"border-box"};
+  const shellBg = step===0 ? "#f4f2ed" : bg;
+  const shellColor = step===0 ? "#1a1a18" : "#eae8e2";
+  const shell={minHeight:"100vh",background:shellBg,transition:"background 0.6s ease",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"28px 20px 52px",fontFamily:"'DM Sans',sans-serif",color:shellColor,boxSizing:"border-box"};
   const card={width:"100%",maxWidth:"380px",animation:"ss-fade 0.3s ease both"};
   const lbl=t=><div style={{marginBottom:"10px",fontSize:"10px",letterSpacing:"0.14em",color:"rgba(255,255,255,0.33)",textTransform:"uppercase"}}>{t}</div>;
   const pBtn=(bg2,op=1)=>({width:"100%",padding:"14px 20px",borderRadius:"12px",fontSize:"14px",cursor:"pointer",fontFamily:"'DM Sans',sans-serif",background:bg2,border:"none",color:"white",opacity:op,transition:"opacity 0.2s"});
@@ -362,12 +364,32 @@ export default function SoundscapeApp(){
 
       {/* ── Welcome ── */}
       {step===0&&(
-        <div style={card} key="s0">
-          <div style={{fontSize:"10px",letterSpacing:"0.14em",color:"rgba(255,255,255,0.28)",textTransform:"uppercase",marginBottom:"10px"}}>Soundscape Assessment</div>
-          <h1 style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"48px",fontWeight:400,lineHeight:1.05,marginBottom:"16px"}}>How does<br/><em>this space</em><br/>sound?</h1>
-          <p style={{color:"rgba(255,255,255,0.4)",fontSize:"13px",lineHeight:1.7,marginBottom:"38px"}}>A perceptual soundscape assessment. About 60 seconds.</p>
-          {entryCount>0&&<div style={{marginBottom:"18px",fontSize:"12px",color:"rgba(255,255,255,0.24)"}}>{entryCount} {entryCount===1?"entry":"entries"} saved</div>}
-          <button onClick={()=>setStep(1)} style={pBtn("rgba(255,255,255,0.1)")}>Begin →</button>
+        <div style={{...card,maxWidth:"360px"}} key="s0">
+          {/* Decorative wave mark */}
+          <div style={{marginBottom:"36px"}}>
+            <svg width="48" height="32" viewBox="0 0 48 32" fill="none">
+              <path d="M2 24 C8 8, 16 8, 24 16 S40 24, 46 8" stroke="#5a8a6a" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
+              <path d="M2 30 C8 14, 16 14, 24 22 S40 30, 46 14" stroke="#5a8a6a" strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.4"/>
+            </svg>
+          </div>
+          <div style={{fontSize:"10px",letterSpacing:"0.16em",color:"#8a9a8a",textTransform:"uppercase",marginBottom:"14px",fontWeight:500}}>Soundscape Assessment</div>
+          <h1 style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"46px",fontWeight:400,lineHeight:1.08,marginBottom:"20px",color:"#1a1a18"}}>
+            How does<br/><em>this space</em><br/>sound?
+          </h1>
+          <p style={{color:"#6b7268",fontSize:"14px",lineHeight:1.75,marginBottom:"48px",maxWidth:"280px"}}>
+            A perceptual assessment of the acoustic environment. Takes about 60 seconds.
+          </p>
+          {entryCount>0&&(
+            <div style={{marginBottom:"20px",fontSize:"12px",color:"#9aaa9a",letterSpacing:"0.04em"}}>
+              {entryCount} {entryCount===1?"entry":"entries"} saved
+            </div>
+          )}
+          <button onClick={()=>setStep(1)} style={{
+            width:"100%",padding:"16px 20px",borderRadius:"100px",fontSize:"14px",
+            cursor:"pointer",fontFamily:"'DM Sans',sans-serif",letterSpacing:"0.04em",
+            background:"#2d4a38",border:"none",color:"white",transition:"opacity 0.2s",
+            fontWeight:500,
+          }}>Begin →</button>
         </div>
       )}
 
