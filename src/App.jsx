@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import Dashboard from "./Dashboard.jsx";
 
 // ─── Color system ─────────────────────────────────────────────────────────────
 const QUAD_BG={monotonous:[12,20,72],chaotic:[80,14,16],calm:[10,72,36],vibrant:[90,68,8]};
@@ -329,9 +330,9 @@ export default function SoundscapeApp(){
   const stripV=`linear-gradient(to right,${toCSS(QUAD_ACCENT.chaotic)},${toCSS(QUAD_ACCENT.monotonous)},${toCSS(QUAD_ACCENT.calm)},${toCSS(QUAD_ACCENT.vibrant)})`;
   const stripE=`linear-gradient(to right,${toCSS(QUAD_ACCENT.monotonous)},${toCSS(QUAD_ACCENT.calm)},${toCSS(QUAD_ACCENT.chaotic)},${toCSS(QUAD_ACCENT.vibrant)})`;
 
-  const shellBg = step===0 ? "#f4f2ed" : bg;
-  const shellColor = step===0 ? "#1a1a18" : "#eae8e2";
-  const shell={minHeight:"100vh",background:shellBg,transition:"background 0.6s ease",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"28px 20px 52px",fontFamily:"'DM Sans',sans-serif",color:shellColor,boxSizing:"border-box"};
+  const shellBg = (step===0||step===8) ? "#f4f2ed" : bg;
+  const shellColor = (step===0||step===8) ? "#1a1a18" : "#eae8e2";
+  const shell={minHeight:"100vh",background:shellBg,transition:"background 0.6s ease",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:step===8?"flex-start":"center",padding:"28px 20px 52px",fontFamily:"'DM Sans',sans-serif",color:shellColor,boxSizing:"border-box"};
   const card={width:"100%",maxWidth:"380px",animation:"ss-fade 0.3s ease both"};
   const lbl=t=><div style={{marginBottom:"10px",fontSize:"10px",letterSpacing:"0.14em",color:"rgba(255,255,255,0.33)",textTransform:"uppercase"}}>{t}</div>;
   const pBtn=(bg2,op=1)=>({width:"100%",padding:"14px 20px",borderRadius:"12px",fontSize:"14px",cursor:"pointer",fontFamily:"'DM Sans',sans-serif",background:bg2,border:"none",color:"white",opacity:op,transition:"opacity 0.2s"});
@@ -390,6 +391,7 @@ export default function SoundscapeApp(){
             background:"#2d4a38",border:"none",color:"white",transition:"opacity 0.2s",
             fontWeight:500,
           }}>Begin →</button>
+          <button onClick={()=>setStep(8)} style={{marginTop:"18px",background:"none",border:"none",cursor:"pointer",fontFamily:"'DM Sans',sans-serif",fontSize:"13px",color:"#6b7268",padding:0}}>View results</button>
         </div>
       )}
 
@@ -601,7 +603,14 @@ export default function SoundscapeApp(){
             }
             <button onClick={reset} style={{...sBtn,flex:1}}>New</button>
           </div>
+          {saved&&(
+            <button onClick={()=>setStep(8)} style={{marginTop:"14px",background:"none",border:"none",cursor:"pointer",fontFamily:"'DM Sans',sans-serif",fontSize:"13px",color:"rgba(255,255,255,0.5)",padding:0}}>See all results</button>
+          )}
         </div>
+      )}
+
+      {step===8&&(
+        <Dashboard key="s8" onBack={()=>setStep(0)} sources={SOURCES} wordPool={WORD_POOL} quadLabel={QUAD_LABEL}/>
       )}
     </div>
   );
